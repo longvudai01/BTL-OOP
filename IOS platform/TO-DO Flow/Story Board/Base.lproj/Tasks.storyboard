@@ -157,6 +157,13 @@
                                     <constraint firstItem="HJH-O8-980" firstAttribute="leading" secondItem="q8D-EV-75e" secondAttribute="leading" id="mG4-Cq-6ay"/>
                                 </constraints>
                             </stackView>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xun-eC-Lyj" customClass="PopupView" customModule="TO_DO_Flow" customModuleProvider="target">
+                                <rect key="frame" x="15" y="224" width="270" height="295"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" priority="999" constant="295" id="Mnk-TR-kTo"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <constraints>
                             <constraint firstItem="ium-QD-qvA" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-40" id="7wc-AV-7eY"/>
@@ -171,19 +178,31 @@
                             <constraint firstAttribute="trailing" secondItem="q8D-EV-75e" secondAttribute="trailing" id="gGP-x8-9tQ"/>
                             <constraint firstItem="m3m-C1-kZx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gjq-AS-Qri"/>
                             <constraint firstItem="4vl-nW-zrU" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="h3o-xT-aQ1"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xun-eC-Lyj" secondAttribute="trailing" constant="25" id="jCe-wf-3Iy"/>
                             <constraint firstItem="q8D-EV-75e" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="o7f-Ee-opB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xun-eC-Lyj" secondAttribute="bottom" id="pgS-dD-cdg"/>
+                            <constraint firstItem="xun-eC-Lyj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sx7-0b-1BF"/>
+                            <constraint firstItem="xun-eC-Lyj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="wqY-pm-SAS"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Ge1-oa-9bd">
-                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="ORu-FE-LtD"/>
+                        <barButtonItem key="rightBarButtonItem" title="Sort" id="ORu-FE-LtD">
+                            <connections>
+                                <action selector="sortWasPressed:" destination="BYZ-38-t0r" id="ART-OU-Ic1"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="addNewTaskLabel" destination="OMG-un-7nJ" id="UJQ-GW-U4u"/>
+                        <outlet property="addTaskStackView" destination="q8D-EV-75e" id="Ydt-Yi-TNj"/>
+                        <outlet property="bottomPopupView" destination="pgS-dD-cdg" id="GeC-pc-vgD"/>
                         <outlet property="emptyImageView" destination="ium-QD-qvA" id="PDF-bb-E1s"/>
+                        <outlet property="heightPopupView" destination="Mnk-TR-kTo" id="WqS-Cy-VTy"/>
                         <outlet property="inputTF" destination="wrf-yI-OTR" id="cFS-Sl-si4"/>
                         <outlet property="keyboardHeightLayoutConstraint" destination="crG-bW-oxh" id="fTs-J1-ye1"/>
                         <outlet property="messagelabel" destination="m3m-C1-kZx" id="MGR-dS-Nc4"/>
+                        <outlet property="popupView" destination="xun-eC-Lyj" id="C8Z-be-fGD"/>
                         <outlet property="tableView" destination="4vl-nW-zrU" id="3cd-pV-kQ0"/>
                     </connections>
                 </viewController>
@@ -462,7 +481,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Tags" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bSR-bh-fxi">
-                                            <rect key="frame" x="16" y="0.0" width="288" height="43.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="290" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>

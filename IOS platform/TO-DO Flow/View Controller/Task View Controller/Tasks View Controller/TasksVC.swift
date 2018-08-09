@@ -17,6 +17,10 @@ class TasksVC: UIViewController {
     private enum Segue {
         static let addTaskVC = "AddTask"
     }
+    @IBOutlet weak var popupView: PopupView!
+    
+    @IBOutlet weak var bottomPopupView: NSLayoutConstraint!
+    @IBOutlet weak var heightPopupView: NSLayoutConstraint!
     
     // MARK: - IBOutlets
     
@@ -25,6 +29,7 @@ class TasksVC: UIViewController {
     @IBOutlet weak var emptyImageView: UIImageView!
     @IBOutlet weak var addNewTaskLabel: UILabel!
     
+    @IBOutlet weak var addTaskStackView: UIStackView!
     @IBOutlet var keyboardHeightLayoutConstraint: NSLayoutConstraint?
     
     @IBOutlet weak var inputTF: UITextField!
@@ -34,7 +39,7 @@ class TasksVC: UIViewController {
     
     
     var managedObjectContext: NSManagedObjectContext?
-    
+
     private lazy var fetchedResultsController: NSFetchedResultsController<Task> = {
         // Create Fetch Request
         let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
@@ -43,7 +48,7 @@ class TasksVC: UIViewController {
       
         // Configure Fetch Request
         
-        fetchRequest.predicate = predicate
+  //      fetchRequest.predicate = predicate
         
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: #keyPath(Task.updatedAt), ascending: false)
@@ -57,6 +62,7 @@ class TasksVC: UIViewController {
         
         // Configure Fetched Results Controller
         fetchedResultsController.delegate = self
+        
         
         return fetchedResultsController
     }()
@@ -78,6 +84,8 @@ class TasksVC: UIViewController {
         return dateFormatter
     }()
     
+    
+    
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
@@ -85,6 +93,8 @@ class TasksVC: UIViewController {
         setupView()
         fetchTasks()
         updateView()
+        
+        
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardNotification(notification:)),
@@ -101,6 +111,11 @@ class TasksVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         setupNavigationController()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
     }
     
     
@@ -172,6 +187,7 @@ class TasksVC: UIViewController {
         setupTableView()
         view.backgroundColor = .white
         inputTF.delegate = self
+        setupPopupView()
         
         self.hideKeyboardWhenTappedAround()
     }
@@ -193,6 +209,20 @@ class TasksVC: UIViewController {
         messagelabel.text = "There's nothing here yet."
         addNewTaskLabel.text = "Add new task..."
     }
+    
+    private func setupPopupView() {
+        
+        popupView.backgroundColor = .clear
+        popupView.isOpaque = false
+        popupView.tableView.backgroundView = nil
+        popupView.tableView.backgroundColor = .clear
+        
+        popupView.delegate = self
+        
+        heightPopupView.constant = 0
+    }
+    
+    
 
     // MARK: - Helper Methods
     
@@ -207,6 +237,11 @@ class TasksVC: UIViewController {
     }
     
     // MARK: - Actions
+    @IBAction func sortWasPressed(_ sender: UIBarButtonItem) {
+        configure()
+        animateIn()
+        addTaskStackView.isHidden = true
+    }
     @IBAction func addTaskButtonWasPressed(_ sender: Any) {
     }
     
@@ -244,7 +279,11 @@ extension TasksVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else {return nil}
-        return sectionInfo.name
+        var titleSection = sectionInfo.name
+        if section == 0 {
+            titleSection = "To Day"
+        }
+        return titleSection
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -409,7 +448,7 @@ extension TasksVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let taskTitle = textField.text, !taskTitle.isEmpty {
             // Create Task
-            let task = Task(context: managedObjectContext!)//coreDataManager.managedObjectContext)
+            let task = Task(context: managedObjectContext!)
             
             // Configure Task
             task.updatedAt = Date()
@@ -481,5 +520,59 @@ extension TasksVC: TasksCellDelegate {
         
         task.hasAlarm = false
      //   task.calendarIdentifier = nil
+    }
+}
+
+
+extension TasksVC: PopupViewDelegate {
+    func sortByCategory() {
+        
+    }
+    
+    func configure() {
+        self.updateViewConstraints()
+    }
+    
+    func animateIn() {
+        
+        configure()
+        popupView.alpha = 0.8
+        
+        UIView.animate(withDuration: 0.1,
+                       delay: 0,
+                       options: [.curveEaseIn],
+                       animations: {
+                        self.popupView.alpha = 1
+                        self.heightPopupView.constant = 310
+                        self.bottomPopupView.constant = 20
+                        self.view.layoutIfNeeded()
+        })
+    }
+    
+    func animateOut () {
+        UIView.animate(withDuration: 0.1,
+                       delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.popupView.alpha = 1
+                        self.bottomPopupView.constant = -self.popupView.frame.height
+                        self.view.layoutIfNeeded()
+        })
+        { (success: Bool) in
+            print("remove")
+        }
+    }
+    
+    func dismissView() {
+        animateOut()
+        addTaskStackView.isHidden = false
+    }
+    
+    func sortByGroceryList() {
+       
+    }
+    
+    func sortByDate() {
+       
     }
 }

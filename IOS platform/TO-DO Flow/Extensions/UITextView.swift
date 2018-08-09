@@ -33,7 +33,8 @@ extension UITextView {
         let transition = CATransition()
         transition.delegate = self as? CAAnimationDelegate
         transition.type = kCATransitionFromLeft
-        transition.duration = 0.2
+        transition.duration = 0.5
+        
         
         self.layer.add(transition, forKey: "transition")
     }

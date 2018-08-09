@@ -13,6 +13,7 @@
 		DD22E4082112F55F00E169F3 /* EventKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD22E4072112F55F00E169F3 /* EventKit.swift */; };
 		DD22E40A211302CC00E169F3 /* RepeatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD22E409211302CC00E169F3 /* RepeatVC.swift */; };
 		DD22E40D211303E200E169F3 /* FrequenciesList.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD22E40C211303E200E169F3 /* FrequenciesList.plist */; };
+		DD25EA22211C343500EA689D /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD25EA21211C343500EA689D /* PopupView.swift */; };
 		DD36D016210264AA0080F3E2 /* AddTaskVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD36D015210264AA0080F3E2 /* AddTaskVC.swift */; };
 		DD36D0182102681D0080F3E2 /* TasksCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD36D0172102681D0080F3E2 /* TasksCell.swift */; };
 		DD42F433210EC6B800D73EDF /* HelperClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD42F432210EC6B800D73EDF /* HelperClass.swift */; };
@@ -48,6 +49,7 @@
 		DD22E4072112F55F00E169F3 /* EventKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventKit.swift; sourceTree = "<group>"; };
 		DD22E409211302CC00E169F3 /* RepeatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatVC.swift; sourceTree = "<group>"; };
 		DD22E40C211303E200E169F3 /* FrequenciesList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = FrequenciesList.plist; path = "TO-DO Flow/FrequenciesList.plist"; sourceTree = SOURCE_ROOT; };
+		DD25EA21211C343500EA689D /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
 		DD36D015210264AA0080F3E2 /* AddTaskVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskVC.swift; sourceTree = "<group>"; };
 		DD36D0172102681D0080F3E2 /* TasksCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksCell.swift; sourceTree = "<group>"; };
 		DD42F432210EC6B800D73EDF /* HelperClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperClass.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 				DD7C012621079979006A1F39 /* CategoryCell.swift */,
 				DD87C9262110D721008D166B /* Tags Picker Cell View */,
 				DD87C9252110D706008D166B /* Tags Cell View */,
+				DD25EA21211C343500EA689D /* PopupView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				DD36D016210264AA0080F3E2 /* AddTaskVC.swift in Sources */,
 				DD91100520FDA93700F7B966 /* Tasks.xcdatamodeld in Sources */,
 				DD64A8682108EC53003BFE43 /* HorizontalScrollerView.swift in Sources */,
+				DD25EA22211C343500EA689D /* PopupView.swift in Sources */,
 				DD4E8C1E2114BD4500E03BC6 /* TabbarController.swift in Sources */,
 				DD746B0F2109B04300F389E4 /* TagsVC.swift in Sources */,
 				DDDA244921188CD800A313D9 /* CalendarVC.swift in Sources */,
