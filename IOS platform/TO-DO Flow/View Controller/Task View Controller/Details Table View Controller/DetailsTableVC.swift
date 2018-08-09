@@ -76,6 +76,7 @@ class DetailsTableVC: UITableViewController {
     
     var tasks: [Task] = []
 
+
     // Alarm
     var taskReminder: EKReminder?
     var allReminders: [EKReminder] = []

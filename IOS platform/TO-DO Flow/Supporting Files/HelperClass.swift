@@ -23,6 +23,11 @@ class HelperClass: NSObject {
     }
     
     // MARK: - DateFormatter
+    static let dateFormatterShort1: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE, MMM dd, YYYY"
+        return dateFormatter
+    }()
     
     static let dateFormatterShort: DateFormatter = {
         let dateFormatter = DateFormatter()

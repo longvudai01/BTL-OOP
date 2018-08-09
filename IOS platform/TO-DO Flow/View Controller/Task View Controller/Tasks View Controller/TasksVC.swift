@@ -11,6 +11,10 @@ import CoreData
 import EventKit
 
 class TasksVC: UIViewController {
+
+
+    var sortByDay = false
+    var sectionObjcs: [Section] = []
     
     // MARK: - Enum
     
@@ -45,9 +49,7 @@ class TasksVC: UIViewController {
         let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
         
         let predicate = NSPredicate(format: "isFinished = 0")
-      
         // Configure Fetch Request
-        
   //      fetchRequest.predicate = predicate
         
         fetchRequest.sortDescriptors = [
@@ -63,7 +65,6 @@ class TasksVC: UIViewController {
         // Configure Fetched Results Controller
         fetchedResultsController.delegate = self
         
-        
         return fetchedResultsController
     }()
     
@@ -76,16 +77,7 @@ class TasksVC: UIViewController {
         guard let fetchedObjects = fetchedResultsController.fetchedObjects else { return false}
         return fetchedObjects.count > 0
     }
-    
-    
-    private lazy var updatedAtDateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM d, HH:mm"
-        return dateFormatter
-    }()
-    
-    
-    
+
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
@@ -94,13 +86,10 @@ class TasksVC: UIViewController {
         fetchTasks()
         updateView()
         
-        
-        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardNotification(notification:)),
                                                name: Notification.Name.UIKeyboardWillChangeFrame,
                                                object: nil)
-
     }
     
     
@@ -112,12 +101,6 @@ class TasksVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         setupNavigationController()
     }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-    }
-    
     
     @objc func keyboardNotification(notification: NSNotification) {
         if let userInfo = notification.userInfo {
@@ -162,7 +145,7 @@ class TasksVC: UIViewController {
         case Segue.addTaskVC:
             if let taskTitle = inputTF.text, !taskTitle.isEmpty {
                 // Create Task
-                let task = Task(context: managedObjectContext!)//coreDataManager.managedObjectContext)
+                let task = Task(context: managedObjectContext!)
                 
                 // Configure Task
                 task.updatedAt = Date()
@@ -171,6 +154,7 @@ class TasksVC: UIViewController {
 
                 clearTextField(inputTF)
                 dismissKeyboard()
+
                 return false
             }
             else {
@@ -216,9 +200,7 @@ class TasksVC: UIViewController {
         popupView.isOpaque = false
         popupView.tableView.backgroundView = nil
         popupView.tableView.backgroundColor = .clear
-        
         popupView.delegate = self
-        
         heightPopupView.constant = 0
     }
     
@@ -237,12 +219,12 @@ class TasksVC: UIViewController {
     }
     
     // MARK: - Actions
+    
+    // Sort Button
     @IBAction func sortWasPressed(_ sender: UIBarButtonItem) {
         configure()
         animateIn()
         addTaskStackView.isHidden = true
-    }
-    @IBAction func addTaskButtonWasPressed(_ sender: Any) {
     }
     
     @IBAction func detailsButtonWasPressed(_ sender: UIButton) {
@@ -259,12 +241,13 @@ class TasksVC: UIViewController {
     }
     
     //MARK: - Memory Management
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 }
 
+
+/* -------------------------- */
 extension TasksVC: UITableViewDataSource, UITableViewDelegate {
     fileprivate func setupTableView() {
         tableView.delegate = self
@@ -273,23 +256,45 @@ extension TasksVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        guard let sections = fetchedResultsController.sections else { return 0 }
-        return sections.count
+        var numberOfsections = 1
+        
+        if sortByDay { numberOfsections = sectionObjcs.count }
+        else {
+            if let section = fetchedResultsController.sections {
+                numberOfsections = section.count
+            }
+        }
+
+        return numberOfsections
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else {return nil}
-        var titleSection = sectionInfo.name
-        if section == 0 {
-            titleSection = "To Day"
+        var titleSection: String = ""
+        
+        if sortByDay { titleSection = sectionObjcs[section].name }
+        else {
+            if let sectionInfo = fetchedResultsController.sections?[section] {
+                titleSection = sectionInfo.name
+            }
         }
+        
         return titleSection
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       // return tasks.count
-        guard let section = fetchedResultsController.sections?[section] else {return 0}
-        return section.numberOfObjects
+        var numberOfRows = 1
+        
+        
+        
+    
+        if self.sortByDay { numberOfRows = sectionObjcs[section].tasks.count }
+        else {
+            if let section1 = fetchedResultsController.sections?[section] {
+                numberOfRows = section1.numberOfObjects
+            }
+        }
+        
+        return numberOfRows
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -317,7 +322,8 @@ extension TasksVC: UITableViewDataSource, UITableViewDelegate {
     func configure(_ cell: TasksCell, at indexPath: IndexPath) {
         
         // Fetch Task
-        let task = fetchedResultsController.object(at: indexPath)
+        let task = self.sortByDay ? sectionObjcs[indexPath.section].tasks[indexPath.row] : fetchedResultsController.object(at: indexPath)
+
         
         // Configure Cell
         cell.delegate = self
@@ -395,7 +401,7 @@ extension TasksVC: UITableViewDataSource, UITableViewDelegate {
         guard editingStyle == .delete else { return }
         
         // Fetch Task
-        let task = fetchedResultsController.object(at: indexPath)
+        let task = self.sortByDay ? sectionObjcs[indexPath.section].tasks[indexPath.row] : fetchedResultsController.object(at: indexPath)
         
         // Delete Note
         managedObjectContext?.delete(task)
@@ -455,7 +461,13 @@ extension TasksVC: UITextFieldDelegate {
             task.createdAt = Date()
             task.title = taskTitle
             
-            
+//            if self.sortByDay {
+//                let today = HelperClass.dateFormatterShort1.string(from: Date())
+//                if sectionObjcs.count > 0 && sectionObjcs.first?.name == today {
+//                    sectionObjcs.first?.tasks.insert(task, at: 0)
+//                }
+//                tableView.reloadData()
+//            }
         }
         
         clearTextField(inputTF)
@@ -487,10 +499,17 @@ extension TasksVC: NSFetchedResultsControllerDelegate {
         switch (type) {
         case .insert:
             if let indexPath = newIndexPath {
+                if self.sortByDay {
+                    sectionObjcs[indexPath.section].tasks.insert(fetchedResultsController.object(at: indexPath), at: indexPath.row)
+                }
+                
                 tableView.insertRows(at: [indexPath], with: .fade)
             }
         case .delete:
             if let indexPath = indexPath {
+                if self.sortByDay {
+                    sectionObjcs[indexPath.section].tasks.remove(at: indexPath.row)
+                }
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
         case .update:
@@ -498,6 +517,7 @@ extension TasksVC: NSFetchedResultsControllerDelegate {
                 configure(cell, at: indexPath)
             }
         case .move:
+            // add sectionObjc
             if let indexPath = indexPath {
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
@@ -538,6 +558,7 @@ extension TasksVC: PopupViewDelegate {
         configure()
         popupView.alpha = 0.8
         
+        
         UIView.animate(withDuration: 0.1,
                        delay: 0,
                        options: [.curveEaseIn],
@@ -560,19 +581,50 @@ extension TasksVC: PopupViewDelegate {
         })
         { (success: Bool) in
             print("remove")
+          //  self.tableView.reloadData()
+            self.addTaskStackView.isHidden = false
         }
     }
     
     func dismissView() {
         animateOut()
-        addTaskStackView.isHidden = false
     }
     
     func sortByGroceryList() {
-       
+        animateOut()
+        self.sortByDay = false
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     func sortByDate() {
-       
+        animateOut()
+        sectionObjcs.removeAll()
+        DispatchQueue.main.async {
+            self.sortByDay = true
+            let crtDay = Date()
+            let today: String = HelperClass.dateFormatterShort1.string(from: crtDay)
+            self.sectionObjcs.append(Section(today))
+            
+            guard let tasks = self.fetchedResultsController.fetchedObjects else { print("No task to sort")
+                return
+            }
+            print(tasks.count)
+            for task in tasks {
+                let dateString = HelperClass.dateFormatterShort1.string(from: task.createdAt!)
+                if self.sectionObjcs.last?.name == dateString {
+                    self.sectionObjcs.last?.tasks.append(task)
+                }
+                else {
+                    self.sectionObjcs.append(Section(dateString))
+                    self.sectionObjcs.last?.tasks.append(task)
+                }
+            }
+            if self.sectionObjcs.count > 0 {
+                self.sectionObjcs.first!.name = "To Day"
+            }
+            self.tableView.reloadData()
+        }
     }
 }

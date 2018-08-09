@@ -29,13 +29,8 @@ class TasksCell: UITableViewCell {
     
     var isFinished: Bool! {
         didSet {
-            if isFinished {
-                self.taskTitleTextView.strikeThrough(isFinished)
-                
-            }
-            else {
-                self.taskTitleTextView.strikeThrough(isFinished)
-            }
+            if isFinished { self.taskTitleTextView.strikeThrough(isFinished) }
+            else { self.taskTitleTextView.strikeThrough(isFinished) }
         }
     }
     
@@ -65,13 +60,18 @@ class TasksCell: UITableViewCell {
         }
     }
     
+    override func prepareForReuse() {
+        taskTitleTextView.text = nil
+        taskTitleTextView.strikeThrough(false)
+    }
+    
     @objc private func swipeRightView(_ sender : UISwipeGestureRecognizer) {
         UIView.animate(withDuration: 1.0) {
             if sender.direction == .right {
                 self.delegate?.swipwRight(self)
             }
-          //  self.taskTitleTextView.layoutIfNeeded()
-          //  self.taskTitleTextView.setNeedsDisplay()
+            self.taskTitleTextView.layoutIfNeeded()
+            self.taskTitleTextView.setNeedsDisplay()
         }
     }
 }

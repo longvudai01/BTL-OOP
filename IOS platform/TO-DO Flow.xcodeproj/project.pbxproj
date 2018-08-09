@@ -14,6 +14,7 @@
 		DD22E40A211302CC00E169F3 /* RepeatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD22E409211302CC00E169F3 /* RepeatVC.swift */; };
 		DD22E40D211303E200E169F3 /* FrequenciesList.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD22E40C211303E200E169F3 /* FrequenciesList.plist */; };
 		DD25EA22211C343500EA689D /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD25EA21211C343500EA689D /* PopupView.swift */; };
+		DD25EA24211CACC100EA689D /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD25EA23211CACC100EA689D /* Section.swift */; };
 		DD36D016210264AA0080F3E2 /* AddTaskVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD36D015210264AA0080F3E2 /* AddTaskVC.swift */; };
 		DD36D0182102681D0080F3E2 /* TasksCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD36D0172102681D0080F3E2 /* TasksCell.swift */; };
 		DD42F433210EC6B800D73EDF /* HelperClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD42F432210EC6B800D73EDF /* HelperClass.swift */; };
@@ -50,6 +51,7 @@
 		DD22E409211302CC00E169F3 /* RepeatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatVC.swift; sourceTree = "<group>"; };
 		DD22E40C211303E200E169F3 /* FrequenciesList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = FrequenciesList.plist; path = "TO-DO Flow/FrequenciesList.plist"; sourceTree = SOURCE_ROOT; };
 		DD25EA21211C343500EA689D /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
+		DD25EA23211CACC100EA689D /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		DD36D015210264AA0080F3E2 /* AddTaskVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskVC.swift; sourceTree = "<group>"; };
 		DD36D0172102681D0080F3E2 /* TasksCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksCell.swift; sourceTree = "<group>"; };
 		DD42F432210EC6B800D73EDF /* HelperClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperClass.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				DD22E4052112EB7400E169F3 /* TimedReminderStore.swift */,
 				DD87C9222110D4EA008D166B /* TimedReminder.swift */,
 				DD22E4032112E7A000E169F3 /* ReminderStore.swift */,
+				DD25EA23211CACC100EA689D /* Section.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				DDE27DB3210878960032FB2F /* DetailsTableVC.swift in Sources */,
 				DDC640832104CA2000408010 /* UIViewController.swift in Sources */,
 				DD22E4042112E7A000E169F3 /* ReminderStore.swift in Sources */,
+				DD25EA24211CACC100EA689D /* Section.swift in Sources */,
 				DDBD3EF52109CE8300921767 /* TaskTagsView.swift in Sources */,
 				DD746B0D21099D2F00F389E4 /* TagView.swift in Sources */,
 				DD7C012521079905006A1F39 /* CategoriesVC.swift in Sources */,

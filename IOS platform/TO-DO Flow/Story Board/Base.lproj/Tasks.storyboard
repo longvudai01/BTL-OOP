@@ -133,7 +133,6 @@
                                                     <constraint firstAttribute="width" secondItem="XK3-7E-ahL" secondAttribute="height" multiplier="1:1" id="dkN-oL-Lbx"/>
                                                 </constraints>
                                                 <connections>
-                                                    <action selector="addTaskButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bgR-To-cil"/>
                                                     <segue destination="ixw-Ed-dgK" kind="show" identifier="AddTask" id="hiH-0M-uib"/>
                                                 </connections>
                                             </button>
