@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:icon="@drawable/edit48"
+        android:id="@+id/btnEdit"
+        app:showAsAction="always"
+        android:title="Edit"></item>
+    <item
+        android:title="Lọc theo ngày"
+        android:id="@+id/mnuLocTheoNgay"></item>
+    <item
+        android:title="Lọc theo category"
+        android:id="@+id/mnuLocTheoCategory"></item>
+    <item
+        android:title="Lọc theo Tag"
+        android:id="@+id/mnuLocTheoTag"></item>
+
+</menu>
